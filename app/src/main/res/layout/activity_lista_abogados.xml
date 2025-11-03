@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/abogado_fondo"
-    tools:context=".HomeActivity">
+    tools:context=".ListaAbogadosActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lawyer_list"
+        android:id="@+id/lista_abogados"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_lawyer_fab"
+        android:id="@+id/fab_agregar_abogado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

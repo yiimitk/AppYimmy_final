@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PerfilActivity extends AppCompatActivity {
+public class LawyerDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class PerfilActivity extends AppCompatActivity {
             lawyerImage.setImageResource(imageResId);
 
             editButton.setOnClickListener(v -> {
-                Intent intent = new Intent(PerfilActivity.this, EditLawyerActivity.class);
+                Intent intent = new Intent(LawyerDetailActivity.this, EditLawyerActivity.class);
                 intent.putExtra("lawyerName", name);
                 intent.putExtra("lawyerSpecialty", specialty);
                 intent.putExtra("lawyerPhone", phone);

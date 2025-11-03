@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".DetalleAbogadoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,14 +12,14 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/lawyer_image"
+            android:id="@+id/imagen_abogado"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/lawyer_name"
+            android:id="@+id/nombre_abogado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -26,7 +28,7 @@
             android:layout_marginTop="16dp"/>
 
         <TextView
-            android:id="@+id/lawyer_specialty"
+            android:id="@+id/especialidad_abogado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -34,7 +36,7 @@
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:id="@+id/lawyer_phone"
+            android:id="@+id/telefono_abogado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -44,7 +46,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/edit_button"
+        android:id="@+id/boton_editar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Editar"

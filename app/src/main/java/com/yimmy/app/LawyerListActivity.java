@@ -9,7 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class LawyerListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         lawyerList.setAdapter(adapter);
 
         adapter.setOnItemClickListener(lawyer -> {
-            Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
+            Intent intent = new Intent(LawyerListActivity.this, LawyerDetailActivity.class);
             intent.putExtra("lawyerName", lawyer.getName());
             intent.putExtra("lawyerSpecialty", lawyer.getSpecialty());
             intent.putExtra("lawyerPhone", lawyer.getPhone());
@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         addLawyerFab.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, EditLawyerActivity.class);
+            Intent intent = new Intent(LawyerListActivity.this, EditLawyerActivity.class);
             startActivity(intent);
         });
     }
