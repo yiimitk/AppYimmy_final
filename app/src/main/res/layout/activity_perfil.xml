@@ -1,54 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp"
+    tools:context=".PerfilActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+    <ImageView
+        android:id="@+id/lawyer_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="32dp"
+        tools:src="@android:drawable/star_on"/>
 
-        <ImageView
-            android:id="@+id/lawyer_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:id="@+id/lawyer_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"/>
-
-        <TextView
-            android:id="@+id/lawyer_specialty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:id="@+id/lawyer_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"/>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/edit_button"
+    <TextView
+        android:id="@+id/lawyer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp" />
+        android:layout_marginTop="24dp"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        tools:text="Nombre del Abogado" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/lawyer_specialty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:textColor="?android:attr/textColorSecondary"
+        tools:text="Especialidad" />
+
+    <TextView
+        android:id="@+id/lawyer_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:textAppearance="?attr/textAppearanceBody1"
+        app:drawableStartCompat="@android:drawable/ic_menu_call" 
+        tools:text="310 123 4567" />
+
+</LinearLayout>

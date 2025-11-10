@@ -1,65 +1,124 @@
-
 package com.yimmy.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+public class ListaAbogadosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-public class ListaAbogadosActivity extends AppCompatActivity {
-
-    private AbogadoAdapter adapter;
-    private AbogadoDao abogadoDao;
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-    private final ActivityResultLauncher<Intent> editAddLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    cargarAbogados();
-                }
-            });
+    private DrawerLayout drawerLayout;
+    // 1. La variable ahora es del tipo correcto LawyerAdapter
+    private LawyerAdapter adapter;
+    private AbogadoViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_abogados);
+        setContentView(R.layout.activity_home);
 
-        RecyclerView listaAbogados = findViewById(R.id.lista_abogados);
-        FloatingActionButton agregarAbogadoFab = findViewById(R.id.fab_agregar_abogado);
+        viewModel = new ViewModelProvider(this).get(AbogadoViewModel.class);
 
-        abogadoDao = AppDatabase.getDatabase(this).abogadoDao();
+        setupViews();
+        setupListeners();
+    }
 
-        adapter = new AbogadoAdapter(List.of());
-        listaAbogados.setAdapter(adapter);
+    private void setupViews() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        RecyclerView lawyerList = findViewById(R.id.lawyer_list);
+        FloatingActionButton addLawyerFab = findViewById(R.id.add_lawyer_fab);
+
+        String userRole = getIntent().getStringExtra("USER_ROLE");
+        boolean isAdmin = "ADMIN".equals(userRole);
+
+        addLawyerFab.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+
+        // 2. Crear una instancia del LawyerAdapter corregido
+        adapter = new LawyerAdapter(isAdmin);
+        lawyerList.setAdapter(adapter);
+
+        viewModel.getAllAbogados().observe(this, abogados -> {
+            adapter.submitList(abogados);
+        });
+    }
+
+    private void setupListeners() {
         adapter.setOnItemClickListener(abogado -> {
-            Intent intent = new Intent(ListaAbogadosActivity.this, DetalleAbogadoActivity.class);
-            intent.putExtra("abogadoId", abogado.id);
+            Intent intent = new Intent(ListaAbogadosActivity.this, PerfilActivity.class);
+            intent.putExtra("LAWYER_DATA", abogado);
             startActivity(intent);
         });
 
-        agregarAbogadoFab.setOnClickListener(v -> {
-            Intent intent = new Intent(ListaAbogadosActivity.this, EditarAbogadoActivity.class);
-            editAddLauncher.launch(intent);
+        adapter.setOnAdminOptionsClickListener(new LawyerAdapter.OnAdminOptionsClickListener() {
+            @Override
+            public void onEditClick(Abogado abogado) {
+                Intent intent = new Intent(ListaAbogadosActivity.this, EditLawyerActivity.class);
+                intent.putExtra("LAWYER_DATA", abogado);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteClick(Abogado abogado) {
+                viewModel.removeAbogado(abogado);
+                Toast.makeText(ListaAbogadosActivity.this, "Abogado eliminado", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        cargarAbogados();
+        findViewById(R.id.add_lawyer_fab).setOnClickListener(v -> {
+            Intent intent = new Intent(ListaAbogadosActivity.this, EditLawyerActivity.class);
+            startActivity(intent);
+        });
     }
 
-    private void cargarAbogados() {
-        executorService.execute(() -> {
-            List<Abogado> abogados = abogadoDao.obtenerTodos();
-            runOnUiThread(() -> {
-                adapter.actualizarDatos(abogados);
-            });
-        });
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.nav_info) {
+            Toast.makeText(this, "App de Abogados v1.0", Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.nav_lawyers) {
+            // No hacemos nada
+        } else if (itemId == R.id.nav_logout) {
+            logout();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void logout() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -1,6 +1,6 @@
-
 package com.yimmy.app;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface AbogadoDao {
 
     @Query("SELECT * FROM abogados ORDER BY nombre ASC")
-    List<Abogado> obtenerTodos();
+    LiveData<List<Abogado>> obtenerTodos();
 
     @Query("SELECT * FROM abogados WHERE id = :id")
     Abogado obtenerPorId(int id);
@@ -25,4 +25,8 @@ public interface AbogadoDao {
 
     @Delete
     void eliminar(Abogado abogado);
+
+    // 1. Método añadido para la inicialización
+    @Query("DELETE FROM abogados")
+    void eliminarTodos();
 }

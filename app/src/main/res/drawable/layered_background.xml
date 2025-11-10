@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Capa 1: La imagen de fondo -->
+    <item android:drawable="@drawable/matrix_background" />
+
+    <!-- Capa 2: La superposición oscura para legibilidad -->
+    <item android:drawable="@color/background_overlay" />
+
+</layer-list>
